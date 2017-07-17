@@ -2,6 +2,7 @@ package main
 
 import(
   "encoding/csv"
+  iconv "github.com/djimenez/iconv-go"
   "log"
   "os"
 )
@@ -20,7 +21,10 @@ func main(){
   err = file.Truncate(0)
   failOnError(err)
 
-  writer := csv.NewWriter(file)
+  converter, err := iconv.NewWriter(file, "utf-8", "sjis")
+  failOnError(err)
+
+  writer := csv.NewWriter(converter)
   writer.Write([]string{"Kazuki", "20"})
   writer.Write([]string{"Yuki", "21"})
   writer.Write([]string{"Taro", "21"})
